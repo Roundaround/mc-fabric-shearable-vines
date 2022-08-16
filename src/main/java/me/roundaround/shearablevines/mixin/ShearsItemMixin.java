@@ -30,7 +30,7 @@ public abstract class ShearsItemMixin {
     BlockState blockState = world.getBlockState(blockPos);
     Block block = blockState.getBlock();
 
-    if (!(block instanceof VineBlock)) {
+    if (!(block instanceof VineBlock) || blockState.get(ShearableVinesMod.SHEARED)) {
       return;
     }
 

@@ -16,12 +16,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 
 @Mixin(VineBlock.class)
-public abstract class VineBlockMixin extends Block {
-  public VineBlockMixin(Settings settings) {
-    super(settings);
-  }
-
-  @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "setDefaultState"), index = 0)
+public abstract class VineBlockMixin {
+  @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/VineBlock;setDefaultState(Lnet/minecraft/block/BlockState;)V"), index = 0)
   private BlockState adjustDefaultState(BlockState blockState) {
     return blockState.with(ShearableVinesMod.SHEARED, false);
   }
@@ -32,7 +28,7 @@ public abstract class VineBlockMixin extends Block {
   }
 
   @Inject(method = "randomTick", at = @At(value = "HEAD"), cancellable = true)
-  private void canGrowAt(
+  private void randomTick(
       BlockState blockState,
       ServerWorld world,
       BlockPos blockPos,
