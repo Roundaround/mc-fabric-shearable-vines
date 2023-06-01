@@ -3,12 +3,12 @@
   "id": "shearablevines",
   "version": "${version}",
   "name": "Shearabe Vines",
-  "description": "Use shears on vines to stop them from growing!",
+  "description": "Use shears on vines to stop them from growing!\n${library}",
   "authors": [
     "Roundaround"
   ],
   "contact": {
-    "homepage": "https://modrinth.com/mod/roundaround-shearable-vines",
+    "homepage": "https://modrinth.com/mod/shearable-vines",
     "sources": "https://github.com/Roundaround/mc-fabric-shearable-vines",
     "issues": "https://github.com/Roundaround/mc-fabric-shearable-vines/issues"
   },
@@ -26,8 +26,7 @@
   "accessWidener" : "shearablevines.accesswidener",
   "depends": {
     "fabricloader": ">=0.13.3",
-    "fabric": "*",
-    "minecraft": "1.19.x",
+    "minecraft": ">=1.20-beta.1 <1.21",
     "java": ">=17"
   }
 }
