@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "shearablevines",
   "version": "${version}",
-  "name": "Shearabe Vines",
+  "name": "Shearable Vines",
   "description": "Use shears on vines to stop them from growing!\n${library}",
   "authors": [
     "Roundaround"
