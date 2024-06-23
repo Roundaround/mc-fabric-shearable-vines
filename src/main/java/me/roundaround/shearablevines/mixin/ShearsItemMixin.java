@@ -1,15 +1,11 @@
 package me.roundaround.shearablevines.mixin;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
 import me.roundaround.shearablevines.ShearableVinesMod;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.VineBlock;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
@@ -20,6 +16,10 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ShearsItem.class)
 public abstract class ShearsItemMixin {
@@ -44,7 +44,7 @@ public abstract class ShearsItemMixin {
     world.setBlockState(blockPos, blockState.with(ShearableVinesMod.SHEARED, true));
 
     if (playerEntity != null) {
-      itemStack.damage(1, playerEntity, player -> player.sendToolBreakStatus(context.getHand()));
+      itemStack.damage(1, playerEntity, LivingEntity.getSlotForHand(context.getHand()));
     }
 
     info.setReturnValue(ActionResult.success(world.isClient));

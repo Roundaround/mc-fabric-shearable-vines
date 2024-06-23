@@ -3,7 +3,7 @@
   "id": "shearablevines",
   "version": "${version}",
   "name": "Shearable Vines",
-  "description": "Use shears on vines to stop them from growing!\n${library}",
+  "description": "Use shears on vines to stop them from growing!",
   "authors": [
     "Roundaround"
   ],
