@@ -63,11 +63,11 @@ publishing {
     }
   }
 
-//  repositories {
-//    maven {
-//      url "https://maven.rnda.dev/releases/"
-//      credentials.username selfHostedMavenUser
-//      credentials.password selfHostedMavenPass
-//    }
-//  }
+  repositories {
+    maven {
+      url "https://maven.rnda.dev/releases/"
+      credentials.username selfHostedMavenUser
+      credentials.password selfHostedMavenPass
+    }
+  }
 }
