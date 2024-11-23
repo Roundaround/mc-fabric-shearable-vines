@@ -1,5 +1,5 @@
 plugins {
-  id 'fabric-loom' version '1.6-SNAPSHOT'
+  id 'fabric-loom' version '1.8-SNAPSHOT'
   id 'maven-publish'
 }
 
@@ -63,11 +63,11 @@ publishing {
     }
   }
 
-  repositories {
-    maven {
-      url "https://maven.rnda.dev/releases/"
-      credentials.username selfHostedMavenUser
-      credentials.password selfHostedMavenPass
-    }
-  }
+//  repositories {
+//    maven {
+//      url "https://maven.rnda.dev/releases/"
+//      credentials.username selfHostedMavenUser
+//      credentials.password selfHostedMavenPass
+//    }
+//  }
 }
