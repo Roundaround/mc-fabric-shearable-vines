@@ -16,6 +16,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,7 +25,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ShearsItem.class)
 public abstract class ShearsItemMixin {
   @Inject(method = "useOnBlock", at = @At(value = "HEAD"), cancellable = true)
-  public void useOnBlock(ItemUsageContext context, CallbackInfoReturnable<ActionResult> info) {
+  public void useOnBlock(
+      ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir
+  ) {
     World world = context.getWorld();
     BlockPos blockPos = context.getBlockPos();
     BlockState blockState = world.getBlockState(blockPos);
@@ -41,12 +44,14 @@ public abstract class ShearsItemMixin {
     }
 
     world.playSound(playerEntity, blockPos, SoundEvents.BLOCK_GROWING_PLANT_CROP, SoundCategory.BLOCKS, 1f, 1f);
-    world.setBlockState(blockPos, blockState.with(ShearableVinesMod.SHEARED, true));
+    BlockState updatedState = blockState.with(ShearableVinesMod.SHEARED, true);
+    world.setBlockState(blockPos, updatedState);
+    world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Emitter.of(context.getPlayer(), updatedState));
 
     if (playerEntity != null) {
       itemStack.damage(1, playerEntity, LivingEntity.getSlotForHand(context.getHand()));
     }
 
-    info.setReturnValue(ActionResult.success(world.isClient));
+    cir.setReturnValue(ActionResult.SUCCESS);
   }
 }
