@@ -47,7 +47,7 @@ public abstract class ShearsItemMixin {
     world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Emitter.of(context.getPlayer(), updatedState));
 
     if (playerEntity != null) {
-      itemStack.damage(1, playerEntity, LivingEntity.getSlotForHand(context.getHand()));
+      itemStack.damage(1, playerEntity, context.getHand().getEquipmentSlot());
     }
 
     cir.setReturnValue(ActionResult.SUCCESS);
