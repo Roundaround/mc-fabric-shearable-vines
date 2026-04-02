@@ -1,9 +1,9 @@
 package me.roundaround.shearablevines;
 
-import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 public final class ShearableVinesMod {
-  public static final BooleanProperty SHEARED = BooleanProperty.of("sheared");
+  public static final BooleanProperty SHEARED = BooleanProperty.create("sheared");
 
   private ShearableVinesMod() {
   }

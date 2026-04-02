@@ -3,13 +3,13 @@ package me.roundaround.shearablevines.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.roundaround.shearablevines.ShearableVinesMod;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.VineBlock;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.VineBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,27 +19,29 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class VineBlockMixin {
   @WrapOperation(
       method = "<init>", at = @At(
-      value = "INVOKE", target = "Lnet/minecraft/block/VineBlock;setDefaultState(Lnet/minecraft/block/BlockState;)V"
+      value = "INVOKE",
+      target = "Lnet/minecraft/world/level/block/VineBlock;registerDefaultState" +
+               "(Lnet/minecraft/world/level/block/state/BlockState;)V"
   )
   )
   private void wrapSetDefaultState(VineBlock instance, BlockState blockState, Operation<Void> original) {
-    original.call(instance, blockState.with(ShearableVinesMod.SHEARED, false));
+    original.call(instance, blockState.setValue(ShearableVinesMod.SHEARED, false));
   }
 
-  @Inject(method = "appendProperties", at = @At(value = "TAIL"))
-  private void appendProperties(StateManager.Builder<Block, BlockState> builder, CallbackInfo info) {
+  @Inject(method = "createBlockStateDefinition", at = @At(value = "TAIL"))
+  private void appendProperties(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo info) {
     builder.add(ShearableVinesMod.SHEARED);
   }
 
   @Inject(method = "randomTick", at = @At(value = "HEAD"), cancellable = true)
   private void randomTick(
       BlockState blockState,
-      ServerWorld world,
+      ServerLevel world,
       BlockPos blockPos,
-      Random random,
+      RandomSource random,
       CallbackInfo info
   ) {
-    if (blockState.get(ShearableVinesMod.SHEARED)) {
+    if (blockState.getValue(ShearableVinesMod.SHEARED)) {
       info.cancel();
     }
   }
